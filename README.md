@@ -31,7 +31,7 @@ Este repositório contém o projeto desenvolvido para a Atividade de Estudo Prog
 | **30/11/2026** | **Submissão da 2ª Entrega (Software Funcional e Integrado)** | **Equipe Completa** |
 
 ## 📊 Diagrama de Classes
-![Diagrama de Classes](docs/aep.png)
+![Diagrama de Classes](docs/aep.jpg)
 
 ## 🗄️ Diagrama de Banco de Dados (DER)
 ![Diagrama ER](docs/der.png)
