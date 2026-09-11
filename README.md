@@ -28,4 +28,10 @@ Este repositório contém o projeto desenvolvido para a Atividade de Estudo Prog
 | 1° semana/out | Implementação das Classes Java (Aplicando Herança e Polimorfismo) | Lorena |
 | 1° semana/out | Desenvolvimento do CRUD e Conexão da Aplicação com o Banco de Dados | Maria Eduarda |
 | 3° semana/out | Testes de Integração, Correção de Bugs e Commit Final no GitHub | Gabriela, Lorena e Maria Eduarda |
-| **30/10/2026** | **Submissão da 2ª Entrega (Software Funcional e Integrado)** | **Equipe Completa** |
+| **30/11/2026** | **Submissão da 2ª Entrega (Software Funcional e Integrado)** | **Equipe Completa** |
+
+## 📊 Diagrama de Classes
+![Diagrama de Classes](docs/aep.png)
+
+## 🗄️ Diagrama de Banco de Dados (DER)
+![Diagrama ER](docs/der.png)
