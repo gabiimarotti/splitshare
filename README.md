@@ -36,11 +36,23 @@ Este repositório contém o projeto desenvolvido para a Atividade de Estudo Prog
 ## 🗄️ Diagrama de Banco de Dados (DER)
 ![Diagrama ER](docs/der.png)
 
-## Implementação Java — Etapa 2
+## Software funcional — Etapas 2 a 5
 
-As classes de domínio (`Morador`, `Despesa`, `DespesaFixa` e `DespesaVariavel`),
-a demonstração local e os testes estão disponíveis em [`src/`](src/README.md).
+O SplitShare possui um menu no terminal para cadastrar, listar, editar e excluir
+moradores e despesas, com persistência MySQL e rateio individual. O projeto usa
+Java 17 ou superior, Maven e MySQL 8.0.16 ou superior.
 
-Esta etapa demonstra herança e polimorfismo com `@Override`, validações e
-cálculo de rateio sem perda de centavos. **A conexão JDBC e o CRUD com MySQL
-ainda não foram implementados**; são a próxima etapa.
+Depois de configurar o banco e as variáveis de ambiente conforme o
+[guia de execução](src/README.md), execute na raiz do projeto:
+
+```text
+mvn clean package
+java -jar target/splitshare.jar
+```
+
+Para testar as regras sem banco, execute `mvn clean test`. Para validar também
+o CRUD e o menu com MySQL, configure o banco descartável indicado no guia e
+execute `mvn clean verify -Pmysql`.
+
+O [relatório de validação](docs/validacao-etapas-4-5.md) registra os cenários
+executados e os itens que dependem da equipe na entrega acadêmica.

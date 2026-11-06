@@ -4,7 +4,7 @@ O arquivo `schema.sql` cria o banco MySQL `splitshare` e as tabelas `morador`, `
 
 ## Como executar
 
-Requer **MySQL 8.0.16 ou superior**. No MySQL Workbench, conecte-se a um servidor MySQL, abra `database/schema.sql` e execute o script inteiro. Confira:
+Requer **MySQL 8.0.16 ou superior**. No MySQL Workbench ou phpMyAdmin, conecte-se a um servidor MySQL e importe `database/schema.sql`. Confira com o comando abaixo.
 
 ```sql
 USE splitshare;
@@ -20,9 +20,11 @@ Depois, execute `database/teste_banco.sql` para inserir dados temporários, conf
 - O banco usa `DECIMAL(10,2)` para dinheiro; na aplicação Java, prefira `BigDecimal`.
 - Despesas fixas devem vincular todos os moradores cadastrados **no momento do cadastro da despesa**.
 - Despesas variáveis devem vincular apenas os moradores selecionados.
-- A aplicação Java deverá gravar despesa e participantes na **mesma transação**, rejeitando despesas sem participantes.
+- O `DespesaDAO` grava despesa e participantes na **mesma transação** e rejeita despesas sem participantes.
 - A exclusão de despesas remove vínculos; a exclusão de moradores com despesas vinculadas é bloqueada para não alterar silenciosamente rateios antigos.
-- A divisão exata dos centavos deverá ser feita no Java.
+- Os modelos Java calculam a divisão exata dos centavos.
 - O script no GitHub **não instala nem executa** um servidor MySQL: é preciso executá-lo no ambiente local.
 
 Referências: requisitos RF01–RF05 no README principal e diagramas em `docs/`.
+
+Para iniciar o menu Java e rodar os testes JDBC e da aplicação, consulte o [guia de execução e validação](../src/README.md).
