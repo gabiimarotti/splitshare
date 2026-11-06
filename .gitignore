@@ -1,16 +1,11 @@
-# Compiled class file
+# Classes compiladas, saidas de build e arquivos temporarios
 *.class
-
-# Log file
+out/
+target/
+build/
 *.log
-
-# BlueJ files
 *.ctxt
-
-# Mobile Tools for Java (J2ME)
 .mtj.tmp/
-
-# Package Files #
 *.jar
 *.war
 *.nar
@@ -18,7 +13,27 @@
 *.zip
 *.tar.gz
 *.rar
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# Credenciais locais e chaves privadas (nunca enviar ao repositorio)
+.env
+.env.*
+!.env.example
+config.properties
+database.properties
+secrets.properties
+*.pem
+*.key
+
+# Backups e bancos locais (manter database/schema.sql versionado)
+backup_*.sql
+*.sql.gz
+*.sqlite
+*.db
+
+# Configuracoes de editor e SO
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
