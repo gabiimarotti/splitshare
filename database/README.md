@@ -27,4 +27,4 @@ Depois, execute `database/teste_banco.sql` para inserir dados temporários, conf
 
 Referências: requisitos RF01–RF05 no README principal e diagramas em `docs/`.
 
-Para conectar o Java e rodar a suíte JDBC, consulte o [guia da Etapa 3](../src/README.md).
+Para iniciar o menu Java e rodar os testes JDBC e da aplicação, consulte o [guia de execução e validação](../src/README.md).

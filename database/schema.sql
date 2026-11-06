@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS despesa_morador (
     INDEX idx_dm_morador (id_morador)
 ) ENGINE = InnoDB;
 
--- REGRAS PARA A FUTURA IMPLEMENTACAO JAVA (nao automatizadas neste DDL):
+-- REGRAS IMPLEMENTADAS NA CAMADA JAVA (nao automatizadas neste DDL):
 -- 1. Despesa fixa: ao cadastrar, associar TODOS os moradores atuais.
 -- 2. Despesa variavel: associar SOMENTE os moradores selecionados.
 -- 3. Nao permitir salvar uma despesa sem ao menos um participante.

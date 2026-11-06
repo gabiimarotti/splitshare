@@ -1,76 +1,151 @@
-# SplitShare em Java
+# Executar e validar o SplitShare
 
-## Compilar e validar os modelos
+## Preparar o ambiente
 
-Na raiz do repositório, com JDK 17 ou superior e Maven 3.9 ou superior:
+Use **JDK 17 ou superior**, **Maven 3.9 ou superior** e **MySQL 8.0.16 ou superior**.
+Confira `java -version` e `mvn -version`. Ambos devem apontar para um JDK compatível.
+Se usar o IntelliJ, configure o SDK do projeto e o JDK do Maven com essa versão.
+
+Execute os comandos na raiz do repositório. O Maven baixa o Connector/J e as
+dependências de teste na primeira execução.
+
+## Compilar e abrir a demonstração
+
+```text
+mvn clean package
+java -jar target/splitshare.jar --demo
+```
+
+O arquivo `target/splitshare.jar` inclui o driver MySQL e inicia com `java -jar`.
+A opção `--demo` executa os exemplos de rateio da Etapa 2. A opção `--help`
+mostra os argumentos aceitos.
+
+## Configurar o banco de uso
+
+1. Inicie o MySQL e importe [database/schema.sql](../database/schema.sql) pelo
+   MySQL Workbench ou pelo phpMyAdmin conectado ao servidor.
+2. Configure uma conta com `SELECT`, `INSERT`, `UPDATE` e `DELETE` em
+   `splitshare.*`. A criação do banco e das tabelas é feita pela conta que
+   executa o esquema.
+3. Informe a conexão, o usuário e a senha por variáveis de ambiente. Exemplo
+   para PowerShell 5.1 ou superior, com a senha solicitada de forma oculta:
+
+```powershell
+$env:SPLITSHARE_DB_URL = 'jdbc:mysql://127.0.0.1:3306/splitshare'
+$env:SPLITSHARE_DB_USER = 'splitshare_app'
+$env:SPLITSHARE_DB_PASSWORD = [System.Net.NetworkCredential]::new('', (Read-Host 'Senha do MySQL' -AsSecureString)).Password
+java -jar target/splitshare.jar
+```
+
+Substitua o usuário, o endereço e a porta pelos da sua instalação.
+Em Linux/macOS, configure as mesmas variáveis com `export`; em uma IDE,
+configure-as no ambiente da execução de `br.com.splitshare.Main`.
+As variáveis precisam estar disponíveis no processo que inicia o Java.
+A aplicação lê diretamente o ambiente. Arquivos `.env` exigem carregamento
+externo. Guarde as credenciais somente no ambiente local.
+
+Para MySQL remoto com TLS, configure `sslMode=VERIFY_IDENTITY` e a cadeia
+de confiança correspondente na conexão. A validação desta entrega foi feita
+com MySQL 8.0.46. O XAMPP pode fornecer MariaDB, cuja compatibilidade precisa
+ser verificada no ambiente usado.
+
+## Usar o menu
+
+| Opção | Ação | Requisito |
+| --- | --- | --- |
+| 1 | Cadastrar morador com nome, e-mail e celular | RF01 |
+| 2 | Listar moradores com seus IDs e dados | RF01 |
+| 3 | Editar morador pelo ID | RF01 |
+| 4 | Excluir morador pelo ID, após confirmar com SIM | RF01 |
+| 5 | Cadastrar despesa fixa para todos os moradores atuais | RF02 |
+| 6 | Cadastrar despesa variável e informar os IDs dos participantes | RF03 |
+| 7 | Listar despesas, vencimentos, totais e parcelas de cada morador | RF04 |
+| 8 | Editar descrição, valor e vencimento; nas variáveis, editar também os participantes | RF05 |
+| 9 | Excluir despesa e seus vínculos, após confirmar com SIM | RF05 |
+| 0 | Encerrar a aplicação | — |
+
+- Use valores como `150,00` ou `150.00`, sem separador de milhares.
+- Use datas no formato `dd/mm/aaaa`, como `10/11/2026`.
+- Na despesa variável, informe de 1 a 15 IDs distintos separados por vírgula.
+  A lista de moradores disponíveis aparece antes da seleção.
+- Ao editar, pressione Enter para manter o valor apresentado.
+- Digite `/cancelar` em qualquer campo para voltar ao menu.
+- Entradas inválidas retornam ao menu com uma orientação. Os dados são
+  enviados ao DAO depois do preenchimento e da validação da operação.
+- A exclusão exige a palavra `SIM`. Qualquer outra resposta cancela.
+- Após uma falha de comunicação com o banco, consulte a listagem antes de
+  repetir uma gravação, pois uma perda de conexão pode ocorrer após o commit.
+
+As despesas fixas guardam os moradores do momento do cadastro. Incluir novos
+moradores posteriormente ou editar uma despesa fixa conserva esse conjunto.
+O tipo da despesa é definido no cadastro. Moradores com despesas vinculadas
+têm a exclusão bloqueada pelo banco.
+
+Os modelos calculam as parcelas com `BigDecimal`. A leitura do banco ordena
+os moradores pelo ID e distribui os centavos restantes a partir do menor ID.
+O total das parcelas corresponde exatamente ao valor da despesa.
+
+## Testar sem MySQL
 
 ```text
 mvn clean test
-java -cp target/classes br.com.splitshare.Main
 ```
 
-`mvn clean test` compila o código e executa as verificações da Etapa 2.
-`Main` continua sendo a demonstração de rateio com dados fictícios.
+Executa as verificações originais dos modelos e os testes de valores, datas,
+IDs, cancelamento, mensagens e argumentos da aplicação.
 
-## Configurar o MySQL
+## Testar com MySQL
 
-1. Inicie um servidor **MySQL 8.0.16 ou superior**. Importe
-   [schema.sql](../database/schema.sql) pelo MySQL Workbench ou pelo phpMyAdmin
-   conectado a esse servidor.
-2. Use uma conta MySQL com permissões `SELECT`, `INSERT`, `UPDATE` e `DELETE`
-   no banco `splitshare`.
-3. Configure as variáveis no ambiente que inicia o Java. Exemplo no PowerShell:
+Use um banco **descartável e exclusivo para os testes**, chamado
+`splitshare_test`. A suíte apaga seus moradores e despesas antes e depois
+de cada caso.
 
-   ```powershell
-   $env:SPLITSHARE_DB_URL = 'jdbc:mysql://127.0.0.1:3306/splitshare'
-   $env:SPLITSHARE_DB_USER = 'splitshare_app'
-   $env:SPLITSHARE_DB_PASSWORD = Read-Host 'Senha do MySQL' -MaskInput
-   ```
+1. Importe uma cópia de [schema.sql](../database/schema.sql), substituindo o
+   nome `splitshare` por `splitshare_test` nas instruções `CREATE DATABASE`
+   e `USE`.
+2. Crie uma conta de teste com `SELECT`, `INSERT`, `UPDATE` e `DELETE`
+   em `splitshare_test.*`.
+3. Configure as variáveis de teste e execute:
 
-   `-MaskInput` requer PowerShell 7. No Windows PowerShell 5.1, use
-   `[System.Net.NetworkCredential]::new('', (Read-Host 'Senha do MySQL' -AsSecureString)).Password`
-   como valor de `SPLITSHARE_DB_PASSWORD`. O Connector/J é incluído pelo Maven.
-   Para um servidor remoto com TLS configurado, use `sslMode=VERIFY_IDENTITY`
-   e a cadeia de confiança apropriada na conexão.
+```powershell
+$env:SPLITSHARE_TEST_DB_URL = 'jdbc:mysql://127.0.0.1:3306/splitshare_test'
+$env:SPLITSHARE_TEST_DB_USER = 'splitshare_test'
+$env:SPLITSHARE_TEST_DB_PASSWORD = [System.Net.NetworkCredential]::new('', (Read-Host 'Senha do MySQL de teste' -AsSecureString)).Password
+mvn clean verify -Pmysql
+```
 
-## Operações disponíveis na Etapa 3
+O perfil compila, testa e empacota a aplicação antes de executar a integração.
+Os testes do menu iniciam o próprio `target/splitshare.jar` em processos Java
+separados, usando as credenciais do banco de teste nesses processos.
+A execução cobre CRUD, leitura após reiniciar, rateio, limites, cancelamento,
+entradas inválidas, restrições e rollback de operações com múltiplos vínculos.
 
-Instancie `MoradorDAO` e `DespesaDAO` passando `ConexaoJdbc.doAmbiente()`.
-A camada chamadora recebe `SQLException` quando o banco rejeita uma operação.
+Confira os resultados em `target/surefire-reports` e
+`target/failsafe-reports`. A ausência do banco ou das variáveis faz o perfil
+`mysql` falhar. Para o teste manual dos scripts SQL, siga o
+[guia do banco](../database/README.md).
 
-| Requisito | Operação |
-| --- | --- |
-| RF01 | `MoradorDAO` cadastra, busca, lista, edita e exclui moradores. O e-mail é único. Moradores vinculados a despesas ficam protegidos contra exclusão. |
-| RF02 | `inserirFixa(descricao, valor, vencimento)` usa todos os moradores do banco no momento do cadastro. O conjunto é preservado nas edições e nas leituras posteriores. |
-| RF03 | `inserirVariavel(despesa)` grava de 1 a 15 moradores cadastrados, selecionados no modelo. |
-| RF04 | `listar()` e `buscarPorId(id)` retornam despesas com total, vencimento e participantes. Use `calcularRateio()` para a cota base e `calcularRateiosIndividuais()` para as cotas exatas. |
-| RF05 | `atualizar(despesa)` edita descrição, valor e vencimento e permite trocar participantes de despesas variáveis. O tipo é preservado. `excluir(id)` remove a despesa e os vínculos. |
+## Roteiro de apresentação
 
-A criação e a edição de despesas gravam os dados e os vínculos em uma única
-transação. O DER guarda os IDs dos participantes. Nas despesas persistidas, os
-IDs são lidos em ordem crescente, que determina quem recebe o centavo extra
-quando a divisão é inexata. Os modelos preservam a classe abstrata, a herança
-e o polimorfismo com `@Override`.
+Em um banco reservado para a demonstração, cadastre Ana, Bia e Leo pela opção 1.
+Anote os IDs exibidos. Cadastre um aluguel fixo de R$ 900,00 pela opção 5 e um
+mercado de R$ 150,00 para Ana e Bia pela opção 6. A opção 7 deve exibir R$ 300,00
+por morador no aluguel e R$ 75,00 para cada participante do mercado.
 
-## Validar Java e MySQL juntos
+Encerre com 0, abra o JAR novamente e consulte as despesas. Edite o mercado
+para R$ 180,00 e confira as parcelas de R$ 90,00. Tente excluir Ana enquanto
+ela participa das despesas e confira o bloqueio. Exclua as despesas e depois
+exclua a moradora.
 
-1. Em um MySQL de teste, importe uma cópia de
-   [schema.sql](../database/schema.sql) trocando `splitshare` por
-   `splitshare_test` nas instruções `CREATE DATABASE` e `USE`.
-2. Configure uma conta de teste com as quatro permissões no banco de teste.
-   Use um **banco descartável e exclusivo para a suíte**. Os testes apagam os
-   registros de `splitshare_test` antes e depois de cada caso.
+## Organização e entrega
 
-   ```powershell
-   $env:SPLITSHARE_TEST_DB_URL = 'jdbc:mysql://127.0.0.1:3306/splitshare_test'
-   $env:SPLITSHARE_TEST_DB_USER = 'splitshare_test'
-   $env:SPLITSHARE_TEST_DB_PASSWORD = Read-Host 'Senha do MySQL de teste' -MaskInput
-   mvn clean verify -Pmysql
-   ```
+- `model` contém a classe abstrata `Despesa`, suas subclasses e `Morador`.
+  O cálculo usa herança e polimorfismo com `@Override`.
+- `dao` contém as consultas parametrizadas, os vínculos do DER e as transações.
+- `console` contém o menu, a leitura e a apresentação dos dados.
+- `Main` inicia o menu ou a demonstração.
+- `src/test` contém os testes de domínio, entrada, persistência e aplicação.
 
-3. Confira `target/surefire-reports` e `target/failsafe-reports`. A integração
-   verifica CRUD, seleção de participantes, rateio, restrições do banco e
-   rollback quando um vínculo falha. O perfil `mysql` exige um banco acessível
-   e as três variáveis de teste.
-
-Para validar apenas o SQL, siga o [guia do banco](../database/README.md).
+O relatório técnico está em [validação das Etapas 4 e 5](../docs/validacao-etapas-4-5.md).
+A equipe deve conferir as contribuições individuais no GitHub e realizar a
+submissão institucional da segunda entrega.
