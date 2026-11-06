@@ -9,12 +9,19 @@ import java.util.List;
 
 /** Despesa dividida somente entre os moradores selecionados. */
 public class DespesaVariavel extends Despesa {
+    /** Limite previsto no diagrama de classes da primeira entrega (1..15). */
+    public static final int MAX_PARTICIPANTES = 15;
+
     private final List<Morador> moradoresEnvolvidos = new ArrayList<>();
 
     public DespesaVariavel(int id, String descricao, BigDecimal valorTotal,
                            LocalDate dataVencimento, Collection<Morador> selecionados) {
         super(id, descricao, valorTotal, dataVencimento);
-        moradoresEnvolvidos.addAll(copiarParticipantes(selecionados));
+        List<Morador> participantes = copiarParticipantes(selecionados);
+        if (participantes.size() > MAX_PARTICIPANTES) {
+            throw new IllegalArgumentException("Uma despesa variavel aceita no maximo 15 moradores.");
+        }
+        moradoresEnvolvidos.addAll(participantes);
     }
 
     public DespesaVariavel(String descricao, BigDecimal valorTotal,
@@ -23,6 +30,9 @@ public class DespesaVariavel extends Despesa {
     }
 
     public void adicionarMorador(Morador morador) {
+        if (moradoresEnvolvidos.size() >= MAX_PARTICIPANTES) {
+            throw new IllegalArgumentException("Uma despesa variavel aceita no maximo 15 moradores.");
+        }
         adicionarSemDuplicacao(moradoresEnvolvidos, morador);
     }
 

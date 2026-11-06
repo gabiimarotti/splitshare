@@ -36,6 +36,7 @@ java -cp out br.com.splitshare.model.ModelosTest
 - `calcularRateiosIndividuais()` distribui os centavos restantes entre os primeiros moradores da lista; a soma sempre bate com o total.
 - Os participantes da despesa fixa são copiados no momento de sua criação: adicionar um novo morador depois não muda as despesas antigas.
 - A lista variável permite `adicionarMorador()` e `removerMorador()`, com bloqueio de IDs repetidos.
+- Uma despesa variável comporta **de 1 a 15 participantes** no momento do rateio. O limite de 15 é validado tanto no construtor com participantes quanto em `adicionarMorador()`. O construtor vazio permite montar a seleção antes do cálculo; calcular com zero participantes continua bloqueado.
 - O uso de `BigDecimal` mantém compatibilidade com `DECIMAL(10,2)` do MySQL.
 
 **Limitação atual:** nesta etapa os dados existem apenas em memória para testar a modelagem. A persistência MySQL, os DAOs (`MoradorDAO` e `DespesaDAO`) e o CRUD ficarão para a próxima etapa. Não confundir `Main` com aplicação concluída.

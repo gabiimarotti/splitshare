@@ -40,6 +40,28 @@ public class ModelosTest {
                 new Morador(1, "Outra Ana", "outra@example.invalid", "44999990005")),
                 "Bloquear duplicado pelo ID");
 
+        // Limite 1..15 da composicao DespesaVariavel x Morador no diagrama.
+        List<Morador> quinze = new ArrayList<>();
+        for (int i = 1; i <= 15; i++) {
+            quinze.add(new Morador(100 + i, "Participante " + i,
+                    "participante" + i + "@example.invalid", "44999991000"));
+        }
+        DespesaVariavel comQuinze = new DespesaVariavel(0, "Rateio limite",
+                new BigDecimal("150.00"), LocalDate.of(2026, 11, 15), quinze);
+        conferir(comQuinze.getQuantidadeAtual() == 15, "Aceitar quinze moradores no construtor");
+        conferir(new BigDecimal("10.00").equals(comQuinze.calcularRateio()),
+                "Rateio com quinze moradores");
+        falhaEsperada(() -> comQuinze.adicionarMorador(
+                new Morador(116, "Participante extra", "extra@example.invalid", "44999991001")),
+                "Bloquear o decimo sexto morador via adicionarMorador");
+        conferir(comQuinze.getQuantidadeAtual() == 15,
+                "Manter lista original apos tentativa de exceder limite");
+        List<Morador> dezesseis = new ArrayList<>(quinze);
+        dezesseis.add(new Morador(116, "Participante extra", "extra@example.invalid", "44999991001"));
+        falhaEsperada(() -> new DespesaVariavel(0, "Excesso de participantes",
+                new BigDecimal("160.00"), LocalDate.of(2026, 11, 15), dezesseis),
+                "Bloquear dezesseis moradores via construtor");
+
         Despesa centavos = new DespesaFixa("Conta de teste", new BigDecimal("100.00"),
                 LocalDate.of(2026, 11, 10), List.of(ana, bia, leo));
         Map<Morador, BigDecimal> cotas = centavos.calcularRateiosIndividuais();
