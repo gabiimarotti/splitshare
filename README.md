@@ -36,11 +36,9 @@ Este repositório contém o projeto desenvolvido para a Atividade de Estudo Prog
 ## 🗄️ Diagrama de Banco de Dados (DER)
 ![Diagrama ER](docs/der.png)
 
-## Implementação Java — Etapa 2
+## Implementação Java — Etapas 2 e 3
 
-As classes de domínio (`Morador`, `Despesa`, `DespesaFixa` e `DespesaVariavel`),
-a demonstração local e os testes estão disponíveis em [`src/`](src/README.md).
-
-Esta etapa demonstra herança e polimorfismo com `@Override`, validações e
-cálculo de rateio sem perda de centavos. **A conexão JDBC e o CRUD com MySQL
-ainda não foram implementados**; são a próxima etapa.
+O projeto usa Java 17, Maven e MySQL. A camada de persistência JDBC implementa
+as operações de moradores e despesas, com rateio calculado pelos modelos
+existentes. Consulte o [guia de execução e validação](src/README.md) para
+configurar o banco e rodar os testes.
