@@ -7,9 +7,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-/** Despesa dividida somente entre os moradores selecionados. */
 public class DespesaVariavel extends Despesa {
-    /** Limite previsto no diagrama de classes da primeira entrega (1..15). */
+
     public static final int MAX_PARTICIPANTES = 15;
 
     private final List<Morador> moradoresEnvolvidos = new ArrayList<>();
@@ -36,7 +35,6 @@ public class DespesaVariavel extends Despesa {
         adicionarSemDuplicacao(moradoresEnvolvidos, morador);
     }
 
-    /** Retorna true se um participante foi removido. */
     public boolean removerMorador(int idMorador) {
         if (idMorador <= 0) throw new IllegalArgumentException("Informe um ID valido.");
         return moradoresEnvolvidos.removeIf(morador -> morador.getId() == idMorador);

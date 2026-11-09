@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-/** Despesa rateada entre todos os moradores existentes no momento do cadastro. */
 public class DespesaFixa extends Despesa {
     private final List<Morador> moradoresEnvolvidos;
 

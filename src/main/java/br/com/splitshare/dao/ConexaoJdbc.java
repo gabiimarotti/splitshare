@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-/** Abre uma conexão nova por operação. A configuração vem do ambiente. */
 public final class ConexaoJdbc {
     private final String url;
     private final String usuario;

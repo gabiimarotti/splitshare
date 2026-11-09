@@ -1,6 +1,5 @@
 package br.com.splitshare.model;
 
-/** Representa um morador cadastrado no SplitShare (RF01). */
 public class Morador {
     private int id;
     private String nome;
@@ -20,7 +19,6 @@ public class Morador {
 
     public int getId() { return id; }
 
-    /** ID zero indica objeto ainda nao persistido. */
     public void setId(int id) {
         if (id < 0) throw new IllegalArgumentException("O ID do morador nao pode ser negativo.");
         this.id = id;

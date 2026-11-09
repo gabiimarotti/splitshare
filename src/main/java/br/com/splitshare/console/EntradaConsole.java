@@ -8,7 +8,6 @@ import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
 import java.util.Scanner;
 
-/** Leitura de linhas completas, com formatos explícitos para valores e datas. */
 final class EntradaConsole {
     static final DateTimeFormatter DATA = DateTimeFormatter.ofPattern("dd/MM/uuuu")
             .withResolverStyle(ResolverStyle.STRICT);
@@ -47,7 +46,7 @@ final class EntradaConsole {
                 return id;
             }
         } catch (NumberFormatException ignorada) {
-            // Unifica a orientação para texto, valores fora do intervalo e IDs inválidos.
+
         }
         throw new IllegalArgumentException("Informe um ID inteiro positivo.");
     }
@@ -70,7 +69,7 @@ final class EntradaConsole {
                 return data;
             }
         } catch (DateTimeParseException ignorada) {
-            // A mesma orientação cobre formato incorreto e datas inexistentes.
+
         }
         throw new IllegalArgumentException("Informe uma data válida em dd/mm/aaaa, com ano entre 1000 e 9999.");
     }

@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-/** Persistência dos moradores cadastrados (RF01). */
 public final class MoradorDAO {
     private static final String SELECT = "SELECT id_morador, nome, email, telefone_celular FROM morador";
     private final ConexaoJdbc banco;
@@ -69,7 +68,6 @@ public final class MoradorDAO {
         }
     }
 
-    /** O MySQL bloqueia a exclusão se o morador fizer parte de uma despesa. */
     public boolean excluir(int id) throws SQLException {
         exigirId(id);
         try (Connection conexao = banco.abrir();

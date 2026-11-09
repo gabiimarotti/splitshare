@@ -17,7 +17,6 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/** Interface de terminal dos requisitos RF01 a RF05. */
 public final class ConsoleSplitShare {
     private final MoradorDAO moradores;
     private final DespesaDAO despesas;
@@ -138,7 +137,7 @@ public final class ConsoleSplitShare {
         DespesaVariavel despesa = new DespesaVariavel(0, descricao, valor, vencimento, participantes);
         despesas.inserirVariavel(despesa);
         saida.println("Despesa cadastrada com ID " + despesa.getId() + ".");
-        // A leitura aplica a mesma ordem de rateio usada nas consultas posteriores.
+
         exibirDespesa(despesas.buscarPorId(despesa.getId()).orElseThrow(
                 () -> new IllegalStateException("Despesa removida por outra sessão. Atualize a listagem.")));
     }
