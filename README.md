@@ -1,11 +1,11 @@
 # SplitShare - Conciliador Financeiro para Moradias Compartilhadas
 
-Este repositório contém o projeto desenvolvido para a Atividade de Estudo Programada (AEP) do curso de Engenharia de Software.
+Aplicação da AEP para dividir despesas em moradias compartilhadas.
 
 **Integrantes:** Gabriela Marotti dos Santos, Lorena de Oliveira Dias e Maria Eduarda de Oliveira Carvalho  
 **Tema ODS 11:** Cidades e Comunidades Sustentáveis
 
-## 📌 Lista de Requisitos Funcionais
+## Lista de Requisitos Funcionais
 
 | ID | Descrição do Requisito |
 | :--- | :--- |
@@ -15,7 +15,7 @@ Este repositório contém o projeto desenvolvido para a Atividade de Estudo Prog
 | **RF04** | O sistema deve permitir a listagem (leitura) de todas as despesas cadastradas no banco de dados, exibindo o valor total e o valor da fração calculada. |
 | **RF05** | O sistema deve permitir a edição e a exclusão de despesas cadastradas, para caso o morador tenha lançado algum valor ou data de forma incorreta. |
 
-## 📅 Cronograma de Execução
+## Cronograma de Execução
 
 | Data Prevista | Atividade (Etapa de Desenvolvimento) | Responsável |
 | :---: | :--- | :---: |
@@ -30,29 +30,25 @@ Este repositório contém o projeto desenvolvido para a Atividade de Estudo Prog
 | 3° semana/out | Testes de Integração, Correção de Bugs e Commit Final no GitHub | Gabriela, Lorena e Maria Eduarda |
 | **30/11/2026** | **Submissão da 2ª Entrega (Software Funcional e Integrado)** | **Equipe Completa** |
 
-## 📊 Diagrama de Classes
+## Diagrama de Classes
 ![Diagrama de Classes](docs/aep.jpg)
 
-## 🗄️ Diagrama de Banco de Dados (DER)
+## Diagrama de Banco de Dados (DER)
 ![Diagrama ER](docs/der.png)
 
-## Software funcional — Etapas 2 a 5
+## Como executar
 
-O SplitShare possui um menu no terminal para cadastrar, listar, editar e excluir
-moradores e despesas, com persistência MySQL e rateio individual. O projeto usa
-Java 17 ou superior, Maven e MySQL 8.0.16 ou superior.
+1. Instale o JDK 17 ou superior, o Maven 3.9 ou superior e o MySQL 8.0.16 ou superior.
+2. Inicie o MySQL e execute [database/schema.sql](database/schema.sql) no MySQL Workbench ou no cliente MySQL. Use uma conta com permissão para criar o banco e as tabelas.
+3. Configure uma conta da aplicação com permissões `SELECT`, `INSERT`, `UPDATE` e `DELETE` em `splitshare.*`.
+4. Na raiz do projeto, configure a conexão e execute. Exemplo em PowerShell:
 
-Depois de configurar o banco e as variáveis de ambiente conforme o
-[guia de execução](src/README.md), execute na raiz do projeto:
-
-```text
+```powershell
+$env:SPLITSHARE_DB_URL = 'jdbc:mysql://127.0.0.1:3306/splitshare'
+$env:SPLITSHARE_DB_USER = 'splitshare_app'
+$env:SPLITSHARE_DB_PASSWORD = [System.Net.NetworkCredential]::new('', (Read-Host 'Senha do MySQL' -AsSecureString)).Password
 mvn clean package
 java -jar target/splitshare.jar
 ```
 
-Para testar as regras sem banco, execute `mvn clean test`. Para validar também
-o CRUD e o menu com MySQL, configure o banco descartável indicado no guia e
-execute `mvn clean verify -Pmysql`.
-
-O [relatório de validação](docs/validacao-etapas-4-5.md) registra os cenários
-executados e os itens que dependem da equipe na entrega acadêmica.
+Ajuste o endereço, a porta e o usuário para sua instalação. Em Linux ou macOS, defina as mesmas variáveis com `export` antes de executar o Maven e o Java. O menu do terminal mostra as operações disponíveis.

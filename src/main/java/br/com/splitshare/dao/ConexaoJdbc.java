@@ -22,10 +22,6 @@ public final class ConexaoJdbc {
         return new ConexaoJdbc("SPLITSHARE_DB");
     }
 
-    static ConexaoJdbc doAmbienteDeTeste() {
-        return new ConexaoJdbc("SPLITSHARE_TEST_DB");
-    }
-
     Connection abrir() throws SQLException {
         return DriverManager.getConnection(url, usuario, senha);
     }
