@@ -14,7 +14,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
-/** Entrada da aplicação com persistência; --demo executa a demonstração dos modelos. */
 public class Main {
     public static void main(String[] args) {
         int codigo = executar(args, new Scanner(System.in), new PrintWriter(System.out, true));
@@ -59,7 +58,6 @@ public class Main {
         variavel.adicionarMorador(ana);
         variavel.adicionarMorador(bia);
 
-        // O mesmo tipo abstrato usa implementacoes distintas via polimorfismo.
         for (Despesa despesa : List.of(fixa, variavel)) {
             saida.println(despesa.getDescricao() + " (" + despesa.getTipoDespesa() + ")");
             saida.println("  Total: R$ " + despesa.getValorTotal());

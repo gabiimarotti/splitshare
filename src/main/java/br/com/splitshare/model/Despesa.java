@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-/** Classe abstrata base para despesas fixas e variaveis (RF02 a RF05). */
 public abstract class Despesa {
     private int id;
     private String descricao;
@@ -27,7 +26,6 @@ public abstract class Despesa {
 
     public int getId() { return id; }
 
-    /** ID zero indica registro ainda nao persistido. */
     public void setId(int id) {
         if (id < 0) throw new IllegalArgumentException("O ID da despesa nao pode ser negativo.");
         this.id = id;
@@ -56,13 +54,10 @@ public abstract class Despesa {
         this.dataVencimento = Objects.requireNonNull(dataVencimento, "A data de vencimento e obrigatoria.");
     }
 
-    /** Valor base da cota: eventuais centavos restantes sao distribuidos separadamente. */
     public abstract BigDecimal calcularRateio();
 
-    /** Valor compatível com o ENUM do banco: Fixa ou Variavel. */
     public abstract String getTipoDespesa();
 
-    /** Moradores associados a esta despesa, em ordem estavel. */
     public abstract List<Morador> getMoradoresEnvolvidos();
 
     protected final BigDecimal calcularCotaBase(int quantidade) {
@@ -72,14 +67,9 @@ public abstract class Despesa {
         return valorTotal.divide(BigDecimal.valueOf(quantidade), 2, RoundingMode.DOWN);
     }
 
-    /**
-     * Rateio exato, inclusive nos casos em que ha centavos indivisiveis.
-     * Os primeiros participantes, na ordem cadastrada, recebem 1 centavo adicional
-     * ate que a soma das cotas seja exatamente igual ao valor total.
-     */
     public final Map<Morador, BigDecimal> calcularRateiosIndividuais() {
         List<Morador> participantes = getMoradoresEnvolvidos();
-        BigDecimal cotaBase = calcularRateio(); // despacho polimorfico (@Override)
+        BigDecimal cotaBase = calcularRateio();
         long centavosTotais = valorTotal.movePointRight(2).longValueExact();
         long centavosBase = cotaBase.movePointRight(2).longValueExact();
         long restantes = centavosTotais - centavosBase * participantes.size();
@@ -95,7 +85,6 @@ public abstract class Despesa {
         return Collections.unmodifiableMap(resultado);
     }
 
-    /** Copia defensiva e deteccao de moradores duplicados por ID ou instancia. */
     protected static List<Morador> copiarParticipantes(Collection<Morador> moradores) {
         Objects.requireNonNull(moradores, "A lista de moradores e obrigatoria.");
         List<Morador> copia = new ArrayList<>();

@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-/** Persistência de despesas e seus participantes (RF02 a RF05). */
 public final class DespesaDAO {
     private static final String SELECT = """
             SELECT d.id_despesa, d.descricao, d.valor_total, d.data_vencimento, d.tipo_despesa,
@@ -34,7 +33,6 @@ public final class DespesaDAO {
         this.banco = banco;
     }
 
-    /** Seleciona todos os moradores na mesma transação que grava a despesa. */
     public DespesaFixa inserirFixa(String descricao, BigDecimal valor, LocalDate vencimento) throws SQLException {
         return banco.emTransacao(conexao -> {
             String sql = """
@@ -73,7 +71,6 @@ public final class DespesaDAO {
         }
     }
 
-    /** Cada despesa retornada oferece o total e os rateios calculados pelo modelo. */
     public List<Despesa> listar() throws SQLException {
         try (Connection conexao = banco.abrir();
              PreparedStatement comando = conexao.prepareStatement(SELECT + ORDEM)) {
@@ -81,7 +78,6 @@ public final class DespesaDAO {
         }
     }
 
-    /** Preserva o tipo e os vínculos históricos das despesas fixas. */
     public boolean atualizar(Despesa despesa) throws SQLException {
         int id = despesa.getId();
         MoradorDAO.exigirId(id);
@@ -117,7 +113,6 @@ public final class DespesaDAO {
         });
     }
 
-    /** A chave estrangeira remove os vínculos na mesma operação. */
     public boolean excluir(int id) throws SQLException {
         MoradorDAO.exigirId(id);
         try (Connection conexao = banco.abrir();
