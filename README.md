@@ -31,10 +31,10 @@ Aplicação da AEP para dividir despesas em moradias compartilhadas.
 | **30/11/2026** | **Submissão da 2ª Entrega (Software Funcional e Integrado)** | **Equipe Completa** |
 
 ## Diagrama de Classes
-![Diagrama de Classes](docs/aep.jpg)
+![Diagrama de Classes](docs/diagrama-de-classes.jpg)
 
 ## Diagrama de Banco de Dados (DER)
-![Diagrama ER](docs/der.png)
+![Diagrama ER](docs/diagrama-do-banco.png)
 
 ## Como executar
 
