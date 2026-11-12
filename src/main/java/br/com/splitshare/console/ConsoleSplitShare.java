@@ -200,7 +200,7 @@ public final class ConsoleSplitShare {
         if (cadastrados.isEmpty()) {
             throw new IllegalArgumentException("Cadastre ao menos um morador antes da despesa.");
         }
-        String pergunta = "IDs dos participantes separados por vírgula (1 a 15 moradores)";
+        String pergunta = "IDs dos participantes separados por vírgula. Exemplo: 1,3.";
         String texto;
         if (atuais.isEmpty()) {
             texto = entrada.texto(pergunta);
