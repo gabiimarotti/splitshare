@@ -77,6 +77,22 @@ SHOW TABLES;
 
 Devem aparecer `morador`, `despesa` e `despesa_morador`.
 
+### Alternativa local com XAMPP e phpMyAdmin
+
+No XAMPP, inicie **Apache** e **MySQL**. Abra `http://localhost/phpmyadmin`, selecione **Importar** e carregue `database/schema.sql`. O XAMPP pode usar MariaDB mesmo com o botão chamado MySQL.
+
+Se o seu banco local usa `root` sem senha, execute cada linha abaixo separadamente no PowerShell aberto na pasta do projeto e siga direto para o passo 6:
+
+```powershell
+$env:SPLITSHARE_DB_URL = 'jdbc:mysql://127.0.0.1:3306/splitshare'
+$env:SPLITSHARE_DB_USER = 'root'
+Remove-Item Env:SPLITSHARE_DB_PASSWORD -ErrorAction SilentlyContinue
+```
+
+Ajuste a porta se necessário. Quando a variável de senha estiver ausente ou vazia, o programa envia uma senha vazia. Uma senha configurada continua sendo utilizada. No PowerShell 5.1, atribuir `''` remove a variável e também funciona com esta versão.
+
+Use `root` sem senha apenas no ambiente local de desenvolvimento. Para ambientes compartilhados, configure a conta com permissões limitadas descrita a seguir.
+
 ### 4. Criar o usuário da aplicação
 
 Na conexão administrativa do Workbench, execute o SQL abaixo **uma vez**, substituindo o texto da senha por uma senha sua:

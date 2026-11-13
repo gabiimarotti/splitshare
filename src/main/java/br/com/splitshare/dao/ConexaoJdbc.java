@@ -54,6 +54,9 @@ public final class ConexaoJdbc {
 
     private static String lerVariavel(String nome, boolean permiteVazio) {
         String valor = System.getenv(nome);
+        if (permiteVazio && valor == null) {
+            return "";
+        }
         if (valor == null || (!permiteVazio && valor.isBlank())) {
             throw new IllegalStateException("Configure a variável de ambiente " + nome + ".");
         }
