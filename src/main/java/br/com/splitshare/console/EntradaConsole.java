@@ -31,7 +31,7 @@ final class EntradaConsole {
     }
 
     String editarTexto(String campo, String atual) {
-        String valor = texto(campo + " [" + atual + "] (Enter para manter)");
+        String valor = texto(campo + " [" + atual + "] (Enter para manter, /cancelar para voltar ao menu)");
         return valor.isEmpty() ? atual : valor;
     }
 
