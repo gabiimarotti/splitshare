@@ -81,8 +81,6 @@ Devem aparecer `morador`, `despesa` e `despesa_morador`.
 
 ### Alternativa local com XAMPP e phpMyAdmin
 
-### Alternativa local com XAMPP e phpMyAdmin
-
 No XAMPP, inicie **Apache** e **MySQL**. Abra `http://localhost/phpmyadmin`, selecione **Importar** e carregue `database/schema.sql`. O XAMPP pode usar MariaDB mesmo com o botão chamado MySQL.
 
 Se o seu banco local usa `root` sem senha, execute cada linha abaixo separadamente no PowerShell aberto na pasta do projeto e siga direto para o passo 6:
