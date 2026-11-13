@@ -2,7 +2,7 @@
 
 Aplicação da AEP para dividir despesas em moradias compartilhadas.
 
-**[Clique aqui para acessar o Guia do Projeto (PDF)](docs/guia-do-projeto.pdf)**
+**[Clique aqui para acessar o Guia do Projeto (PDF)](docs/Guia-SplitShare.pdf)**
 
 **Integrantes:** Gabriela Marotti dos Santos, Lorena de Oliveira Dias e Maria Eduarda de Oliveira Carvalho  
 **Tema ODS 11:** Cidades e Comunidades Sustentáveis
@@ -11,9 +11,9 @@ Aplicação da AEP para dividir despesas em moradias compartilhadas.
 
 | ID | Descrição do Requisito |
 | :--- | :--- |
-| **RF01** | O sistema deve permitir o gerenciamento (cadastro, edição e exclusão) de moradores, contendo apenas nome, e-mail e telefone celular. |
+| **RF01** | O sistema deve permitir o gerenciamento (cadastro, edição e exclusão) de até 15 moradores, contendo apenas nome, e-mail e telefone celular. |
 | **RF02** | O sistema deve permitir o cadastro de "Despesas Fixas" (ex: Aluguel), informando descrição, valor total e data de vencimento, dividindo o valor automaticamente entre todos os moradores cadastrados. |
-| **RF03** | O sistema deve permitir o cadastro de "Despesas Variáveis" (ex: Mercado), permitindo vincular especificamente quais moradores (relação 1:N) farão parte daquela divisão. |
+| **RF03** | O sistema deve permitir o cadastro de "Despesas Variáveis" (ex: Mercado), permitindo vincular especificamente quais moradores (de 1 a 15 participantes) farão parte daquela divisão. |
 | **RF04** | O sistema deve permitir a listagem (leitura) de todas as despesas cadastradas no banco de dados, exibindo o valor total e o valor da fração calculada. |
 | **RF05** | O sistema deve permitir a edição e a exclusão de despesas cadastradas, para caso o morador tenha lançado algum valor ou data de forma incorreta. |
 
@@ -33,7 +33,7 @@ Aplicação da AEP para dividir despesas em moradias compartilhadas.
 | **13/11/2026** | **Submissão da 2ª Entrega (Software Funcional e Integrado)** | **Equipe Completa** |
 
 ## Diagrama de Classes
-![Diagrama de Classes](docs/diagrama-de-classes.jpg)
+[Diagrama de classes atualizado](docs/diagrama-de-classes.md)
 
 ## Diagrama de Banco de Dados (DER)
 ![Diagrama ER](docs/diagrama-do-banco.png)
@@ -139,7 +139,7 @@ O menu do SplitShare será exibido no terminal.
 1. Escolha **1** para cadastrar moradores. Preencha nome, e-mail e celular.
 2. Escolha **2** para listar os moradores e consultar seus IDs.
 3. Escolha **5** para cadastrar uma despesa fixa, dividida entre todos os moradores atuais.
-4. Escolha **6** para uma despesa variável e informe os IDs dos participantes separados por vírgula, como `1,3`. Use IDs existentes.
+4. Escolha **6** para uma despesa variável e informe os IDs dos participantes separados por vírgula, como `1,3`. Use de 1 a 15 IDs existentes.
 5. Escolha **7** para consultar as despesas e as parcelas.
 6. Use **3 e 4** para editar e excluir moradores, **8 e 9** para editar e excluir despesas, e **0** para sair.
 
@@ -155,6 +155,10 @@ Se abrir outro PowerShell, entre na pasta do projeto e configure a conexão nova
 - **Usuário com senha:** repita o **passo 5**, informando o usuário e a senha da sua instalação.
 
 Depois, execute `java -jar target/splitshare.jar`. Recompile depois de atualizar o código.
+
+### Validar a entrega
+
+Use um banco descartável e siga o [roteiro de validação dos RF01–RF05](docs/validacao.md). O roteiro inclui um teste SQL transacional e verificações pelo menu.
 
 ### Problemas comuns
 

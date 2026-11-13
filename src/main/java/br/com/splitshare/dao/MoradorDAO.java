@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 public final class MoradorDAO {
+    private static final int MAX_MORADORES = 15;
     private static final String SELECT = "SELECT id_morador, nome, email, telefone_celular FROM morador";
     private final ConexaoJdbc banco;
 
@@ -23,6 +24,8 @@ public final class MoradorDAO {
             throw new IllegalArgumentException("Informe um morador sem ID para cadastrar.");
         }
         int id = banco.emTransacao(conexao -> {
+            bloquearCadastro(conexao);
+            conferirLimite(conexao);
             String sql = "INSERT INTO morador (nome, email, telefone_celular) VALUES (?, ?, ?)";
             try (PreparedStatement comando = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                 preencher(comando, morador);
@@ -74,6 +77,27 @@ public final class MoradorDAO {
              PreparedStatement comando = conexao.prepareStatement("DELETE FROM morador WHERE id_morador = ?")) {
             comando.setInt(1, id);
             return comando.executeUpdate() == 1;
+        }
+    }
+
+    private static void bloquearCadastro(Connection conexao) throws SQLException {
+        // A conexão JDBC é fechada depois do commit ou rollback, liberando o bloqueio.
+        String sql = "SELECT GET_LOCK(SHA2(CONCAT('splitshare:morador:', DATABASE()), 256), 10)";
+        try (PreparedStatement comando = conexao.prepareStatement(sql);
+             ResultSet resultado = comando.executeQuery()) {
+            if (!resultado.next() || resultado.getInt(1) != 1) {
+                throw new IllegalStateException("Não foi possível reservar o cadastro. Tente novamente.");
+            }
+        }
+    }
+
+    private static void conferirLimite(Connection conexao) throws SQLException {
+        try (PreparedStatement comando = conexao.prepareStatement("SELECT COUNT(*) FROM morador");
+             ResultSet resultado = comando.executeQuery()) {
+            resultado.next();
+            if (resultado.getLong(1) >= MAX_MORADORES) {
+                throw new IllegalStateException("O limite é de " + MAX_MORADORES + " moradores cadastrados.");
+            }
         }
     }
 
