@@ -2,6 +2,8 @@
 
 Aplicação da AEP para dividir despesas em moradias compartilhadas.
 
+**[Clique aqui para acessar o Guia do Projeto (PDF)](docs/guia-do-projeto.pdf)**
+
 **Integrantes:** Gabriela Marotti dos Santos, Lorena de Oliveira Dias e Maria Eduarda de Oliveira Carvalho  
 **Tema ODS 11:** Cidades e Comunidades Sustentáveis
 
@@ -76,6 +78,8 @@ SHOW TABLES;
 ```
 
 Devem aparecer `morador`, `despesa` e `despesa_morador`.
+
+### Alternativa local com XAMPP e phpMyAdmin
 
 ### Alternativa local com XAMPP e phpMyAdmin
 
