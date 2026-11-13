@@ -145,7 +145,14 @@ Informe valores como `150,00` e datas como `30/11/2026`. Na edição, Enter mant
 
 ### Abrir novamente
 
-Mantenha o MySQL em execução. Na mesma janela, basta repetir `java -jar target/splitshare.jar`. Se abrir outro PowerShell, entre na pasta do projeto e repita o passo 5 antes de iniciar. Recompile depois de atualizar o código.
+Mantenha o servidor do banco em execução. Na mesma janela, basta repetir `java -jar target/splitshare.jar`.
+
+Se abrir outro PowerShell, entre na pasta do projeto e configure a conexão novamente:
+
+- **XAMPP com `root` sem senha:** repita os comandos da seção **Alternativa local com XAMPP e phpMyAdmin**.
+- **Usuário com senha:** repita o **passo 5**, informando o usuário e a senha da sua instalação.
+
+Depois, execute `java -jar target/splitshare.jar`. Recompile depois de atualizar o código.
 
 ### Problemas comuns
 
